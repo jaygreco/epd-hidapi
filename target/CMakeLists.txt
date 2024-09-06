@@ -18,14 +18,17 @@ target_sources(epd_rawhid PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/tasks.c
     ${CMAKE_CURRENT_LIST_DIR}/epd/epd/platforms/rp2040_thinkink.c
     ${CMAKE_CURRENT_LIST_DIR}/epd/epd/panels/E2B98FS081.c
+    ${CMAKE_CURRENT_LIST_DIR}/tinyusb/tud_callbacks.c
+    ${CMAKE_CURRENT_LIST_DIR}/tinyusb/usb_descriptors.c
     )
 
 target_include_directories(epd_rawhid PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
     ${CMAKE_CURRENT_LIST_DIR}/epd/epd/
+    ${CMAKE_CURRENT_LIST_DIR}/tinyusb
     )
 
-pico_enable_stdio_usb(epd_rawhid 1)
+pico_enable_stdio_usb(epd_rawhid 0)
 pico_enable_stdio_uart(epd_rawhid 1)
 
 pico_add_extra_outputs(epd_rawhid)
@@ -35,4 +38,8 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     add_compile_definitions("DEBUG")
 endif()
 
-target_link_libraries(epd_rawhid pico_stdlib hardware_spi pico_multicore)
+target_link_libraries(epd_rawhid 
+    pico_stdlib
+    hardware_spi
+    pico_multicore
+    tinyusb_device)

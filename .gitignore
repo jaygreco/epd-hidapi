@@ -11,3 +11,5 @@ CTestTestfile.cmake
 _deps
 .DS_Store
 build
+env/
+__pycache__/
