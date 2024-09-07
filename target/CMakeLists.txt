@@ -16,6 +16,7 @@ add_executable(epd_rawhid)
 target_sources(epd_rawhid PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/main.c
     ${CMAKE_CURRENT_LIST_DIR}/tasks.c
+    ${CMAKE_CURRENT_LIST_DIR}/csum.c
     ${CMAKE_CURRENT_LIST_DIR}/epd/epd/platforms/rp2040_thinkink.c
     ${CMAKE_CURRENT_LIST_DIR}/epd/epd/panels/E2B98FS081.c
     ${CMAKE_CURRENT_LIST_DIR}/tinyusb/tud_callbacks.c
