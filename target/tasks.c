@@ -45,6 +45,8 @@ void management_task() {
         case 'r':
             soft_reboot();
             break;
+        case 'h':
+            for(;;);
         default:
             uart_putc_raw(uart0, c); 
             break;

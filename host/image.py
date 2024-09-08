@@ -91,5 +91,4 @@ if __name__ == "__main__":
     width, height = Image.open("test.bmp").size
     save_bit_array_to_bmp(bit_array, width, height, "test.r.bmp")
 
-    # print(f"csum=0x{csum(bit_array):02x}")
     # print(", ".join("0x{:02x}".format(x) for x in bit_array))
