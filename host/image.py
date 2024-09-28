@@ -22,6 +22,21 @@ class Image:
         self.width, self.height = size
         self.size = size
 
+    def quantize(self, palette=None, dither=True):
+        # Use the default palette
+        if not palette:
+            palette = [
+            0, 0, 0,
+            255, 0, 0,
+            255, 255, 255]
+
+        dither = PIL.Image.Dither.FLOYDSTEINBERG if dither else PIL.Image.Dither.NONE
+
+        p_img = PIL.Image.new('P', (16,16))
+        p_img.putpalette(palette * 64)
+
+        self.img = self.img.convert('RGB').quantize(palette=p_img, dither=PIL.Image.Dither.FLOYDSTEINBERG)
+
     def rotate(self, rotation):
         self.logger.info(f"Rotating image by {rotation}*")
         self.img = self.img.rotate(rotation, expand=True)
@@ -38,7 +53,7 @@ class Image:
 
         self.logger.info("Extracting red/black pixels from image")
 
-        pixels = self.img.load()
+        pixels = self.img.convert('RGB').load()
 
         # Prepare an empty list for the byte-packed binary data
         bit_array_black = []
@@ -132,10 +147,12 @@ if __name__ == "__main__":
     infile = "test.bmp"
 
     image = Image(infile)
+
     image.resize(width=768, height=960)
     image.save(f"{infile}_resized.png")
 
     image.rotate(rotation=90)
+    image.quantize()
     image.extract(threshold=200)
     image.save(f"{infile}_black.bmp", monochrome=True, color="black")
     image.save(f"{infile}_red.bmp", monochrome=True, color="red")
